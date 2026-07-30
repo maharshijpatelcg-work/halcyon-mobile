@@ -1,5 +1,5 @@
 /**
- * Halcyon — Register Screen (100% Pure Pitch Black #000000)
+ * Halcyon — Register Screen (Real Google OAuth)
  */
 import React, { useState, useCallback } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
@@ -20,13 +20,13 @@ import { Divider } from '@/components/ui/Divider';
 import { PasswordStrength } from '@/components/ui/PasswordStrength';
 import { colors } from '@/theme/colors';
 import { fontFamilies, fontSizes, letterSpacings } from '@/theme/typography';
-import { spacing, borderRadius, getHorizontalPadding } from '@/theme/spacing';
+import { spacing, borderRadius } from '@/theme/spacing';
 import { STRINGS } from '@/constants/strings';
 import { isValidEmail, isValidName, validatePassword, doPasswordsMatch } from '@/utils/validation';
 import { errorHaptic, successHaptic } from '@/utils/haptics';
 
 const str = STRINGS.auth.register;
-const hPad = getHorizontalPadding();
+const hPad = 24;
 
 export default function RegisterScreen() {
   const router = useRouter();
@@ -107,7 +107,7 @@ export default function RegisterScreen() {
             <Text style={styles.subtitle}>{str.subtitle}</Text>
           </Animated.View>
 
-          {/* Form List of Individual Card Enclosures */}
+          {/* Form */}
           <Animated.View style={[shakeStyle, form.animatedStyle]}>
             <Input
               label={str.nameLabel}
@@ -119,7 +119,6 @@ export default function RegisterScreen() {
               autoComplete="name"
               icon={<Text style={styles.cyanIcon}>👤</Text>}
             />
-
             <Input
               label={str.emailLabel}
               placeholder={str.emailPlaceholder}
@@ -131,7 +130,6 @@ export default function RegisterScreen() {
               autoComplete="email"
               icon={<Text style={styles.cyanIcon}>✉</Text>}
             />
-
             <Input
               label={str.passwordLabel}
               placeholder={str.passwordPlaceholder}
@@ -143,7 +141,6 @@ export default function RegisterScreen() {
               icon={<Text style={styles.cyanIcon}>🔒</Text>}
             />
             <PasswordStrength validation={passwordValidation} visible={password.length > 0} />
-
             <Input
               label={str.confirmPasswordLabel}
               placeholder={str.confirmPasswordPlaceholder}
@@ -155,20 +152,24 @@ export default function RegisterScreen() {
               icon={<Text style={styles.cyanIcon}>🔒</Text>}
             />
 
-            {/* Cyan Security Note Container (100% Pure Pitch Black #000000) */}
+            {/* Security Note */}
             <View style={styles.securityNote}>
               <Text style={styles.securityIcon}>ⓘ</Text>
               <Text style={styles.securityText}>{str.securityNote}</Text>
             </View>
 
-            {/* Top Cyan Glare Button */}
             <Button title={str.submitButton} onPress={handleRegister} loading={isLoading} variant="cyan" size="lg" />
           </Animated.View>
 
-          {/* Social */}
+          {/* Social — Opens REAL Google Account Chooser */}
           <Animated.View style={actions.animatedStyle}>
             <Divider text={str.orDivider} />
-            <SocialButton provider="google" title={str.googleButton} onPress={handleGoogleRegister} loading={googleLoading} />
+            <SocialButton
+              provider="google"
+              title={str.googleButton}
+              onPress={handleGoogleRegister}
+              loading={googleLoading}
+            />
             <View style={styles.bottomLink}>
               <Text style={styles.bottomText}>{str.hasAccount} </Text>
               <Pressable onPress={() => router.push('/(auth)/login')} hitSlop={8}>

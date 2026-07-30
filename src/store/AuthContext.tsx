@@ -1,8 +1,5 @@
 /**
- * Halcyon — Auth Context & Provider (Universal Multi-Platform Support)
- * 
- * Manages authentication state across the app.
- * Guarantees instantaneous, 100% reliable login and registration.
+ * Halcyon — Auth Context & Provider (Real Google OAuth)
  */
 import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react';
 import type { User, AuthState, AuthError } from '@/types/auth';
@@ -27,29 +24,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<AuthError | null>(null);
 
-  // Listen to auth state changes
   useEffect(() => {
     let unsubscribe: (() => void) | null = null;
-
     try {
       unsubscribe = authService.onAuthStateChanged(async (firebaseUser) => {
         setUser(firebaseUser);
         if (firebaseUser) {
-          try {
-            await saveUserData(firebaseUser);
-          } catch (e) {
-            console.warn('[AuthProvider] Storage save note:', e);
-          }
+          try { await saveUserData(firebaseUser); } catch (e) { console.warn('[AuthProvider] Storage save note:', e); }
         }
         setIsLoading(false);
       });
     } catch (e) {
       setIsLoading(false);
     }
-
-    return () => {
-      if (unsubscribe) unsubscribe();
-    };
+    return () => { if (unsubscribe) unsubscribe(); };
   }, []);
 
   const handleAuthError = (err: any) => {

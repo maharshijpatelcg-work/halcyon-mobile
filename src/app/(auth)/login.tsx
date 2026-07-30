@@ -1,8 +1,7 @@
 /**
  * Halcyon — Login Screen
  * 
- * Individual enclosed input cards with Liquid Cyan icons,
- * cyan security note container, and top cyan glare button matching Image 1.
+ * Real Google OAuth integration — opens actual Google Account Chooser.
  */
 import React, { useState, useCallback } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
@@ -22,13 +21,13 @@ import { SocialButton } from '@/components/ui/SocialButton';
 import { Divider } from '@/components/ui/Divider';
 import { colors } from '@/theme/colors';
 import { fontFamilies, fontSizes, letterSpacings } from '@/theme/typography';
-import { spacing, borderRadius, getHorizontalPadding } from '@/theme/spacing';
+import { spacing } from '@/theme/spacing';
 import { STRINGS } from '@/constants/strings';
 import { isValidEmail } from '@/utils/validation';
 import { errorHaptic } from '@/utils/haptics';
 
 const str = STRINGS.auth.login;
-const hPad = getHorizontalPadding();
+const hPad = 24;
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -106,7 +105,7 @@ export default function LoginScreen() {
             <Text style={styles.subtitle}>{str.subtitle}</Text>
           </Animated.View>
 
-          {/* Form List of Individual Card Enclosures */}
+          {/* Form */}
           <Animated.View style={[shakeStyle, form.animatedStyle]}>
             <Input
               label={str.emailLabel}
@@ -135,10 +134,15 @@ export default function LoginScreen() {
             <Button title={str.submitButton} onPress={handleLogin} loading={isLoading} variant="cyan" size="lg" />
           </Animated.View>
 
-          {/* Social */}
+          {/* Social — Opens REAL Google Account Chooser */}
           <Animated.View style={actions.animatedStyle}>
             <Divider text={str.orDivider} />
-            <SocialButton provider="google" title={str.googleButton} onPress={handleGoogleLogin} loading={googleLoading} />
+            <SocialButton
+              provider="google"
+              title={str.googleButton}
+              onPress={handleGoogleLogin}
+              loading={googleLoading}
+            />
             <View style={styles.bottomLink}>
               <Text style={styles.bottomText}>{str.noAccount} </Text>
               <Pressable onPress={() => router.push('/(auth)/register')} hitSlop={8}>

@@ -1,15 +1,28 @@
 /**
- * Halcyon — UI Component Barrel Export
+ * Halcyon — UI Components Export Registry
  */
+export * from './Button';
+export * from './Input';
+export * from './Card';
+export * from './Divider';
+export * from './Toast';
+export * from './LoadingSpinner';
+export * from './Logo';
+export * from './SocialButton';
+export * from './PasswordStrength';
+export * from './GradientBackground';
+export * from './KeyboardAvoidingWrapper';
+export * from './Oscilloscope';
+export * from './GoogleAccountPickerModal';
 
-export { Button } from './Button';
-export { Input } from './Input';
-export { Card } from './Card';
-export { ToastProvider, useToast } from './Toast';
-export { Divider } from './Divider';
-export { SocialButton } from './SocialButton';
-export { Logo } from './Logo';
-export { LoadingSpinner } from './LoadingSpinner';
-export { GradientBackground } from './GradientBackground';
-export { KeyboardAvoidingWrapper } from './KeyboardAvoidingWrapper';
-export { PasswordStrength } from './PasswordStrength';
+// Phase 2C Exports
+export * from './SkeletonLoader';
+export * from './EmptyState';
+export * from './ErrorState';
+export * from './SearchBar';
+export * from './FilterChips';
+export * from './SeverityBadge';
+export * from './TabBar';
+export * from './SectionHeader';
+export * from './ToggleSwitch';
+export * from './SettingsRow';

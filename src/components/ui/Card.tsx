@@ -4,7 +4,7 @@
  * Crisp pitch black surface panel with clean cyan border, zero gray tint.
  */
 import React from 'react';
-import { View, StyleSheet, ViewStyle } from 'react-native';
+import { View, StyleSheet, ViewStyle, StyleProp } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { useAnimatedEntrance } from '@/hooks/useAnimatedEntrance';
 import { colors } from '@/theme/colors';
@@ -15,7 +15,7 @@ type CardVariant = 'default' | 'elevated' | 'outlined' | 'glass' | 'cyanGlow';
 interface CardProps {
   children: React.ReactNode;
   variant?: CardVariant;
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
   animated?: boolean;
   animationDelay?: number;
   noPadding?: boolean;
@@ -72,7 +72,7 @@ export function Card({
 
   if (animated) {
     return (
-      <Animated.View style={[...cardStyle, animatedStyle]}>
+      <Animated.View style={[cardStyle, animatedStyle]}>
         {children}
       </Animated.View>
     );
