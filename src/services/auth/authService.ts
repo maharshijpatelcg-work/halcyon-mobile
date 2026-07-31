@@ -6,7 +6,7 @@
  * fallback when running in Expo Go or Web.
  */
 import type { User } from '@/types/auth';
-import { saveUserSession, clearUserSession, getUserSession } from './secureStorage';
+import { saveUserSession, clearUserSession, getUserSession, saveFirebaseUid } from './secureStorage';
 
 let firebaseAuth: any = null;
 let firebaseAuthModule: any = null;
@@ -52,6 +52,7 @@ export async function signInWithEmail(email: string, password: string): Promise<
     const credential = await auth.signInWithEmailAndPassword(email.trim(), password);
     const user = mapFirebaseUser(credential.user);
     await saveUserSession(user);
+    await saveFirebaseUid(user.uid);
     return user;
   }
 
@@ -65,6 +66,7 @@ export async function signInWithEmail(email: string, password: string): Promise<
     providerId: 'password',
   };
   await saveUserSession(mockUser);
+  await saveFirebaseUid(mockUser.uid);
   return mockUser;
 }
 
@@ -84,6 +86,7 @@ export async function signUpWithEmail(
     const updatedUser = auth.currentUser;
     const user = mapFirebaseUser(updatedUser ?? credential.user);
     await saveUserSession(user);
+    await saveFirebaseUid(user.uid);
     return user;
   }
 
@@ -97,6 +100,7 @@ export async function signUpWithEmail(
     providerId: 'password',
   };
   await saveUserSession(mockUser);
+  await saveFirebaseUid(mockUser.uid);
   return mockUser;
 }
 

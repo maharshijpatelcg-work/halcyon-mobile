@@ -6,9 +6,9 @@
  */
 import { Platform } from 'react-native';
 import type { User } from '@/types/auth';
-import { saveUserSession } from './secureStorage';
+import { saveUserSession, saveFirebaseUid } from './secureStorage';
 
-const GOOGLE_CLIENT_ID = '778035867822-vml065k7lqfvgnqacugfv8hpli29qjnf.apps.googleusercontent.com';
+const GOOGLE_CLIENT_ID = process.env.EXPO_PUBLIC_FIREBASE_WEB_CLIENT_ID || '778035867822-vml065k7lqfvgnqacugfv8hpli29qjnf.apps.googleusercontent.com';
 
 let googleSigninModule: any = null;
 let firebaseAuthModule: any = null;
@@ -159,6 +159,7 @@ async function signInWithGoogleNative(): Promise<User> {
       };
 
       await saveUserSession(user);
+      await saveFirebaseUid(user.uid);
       return user;
     }
   }

@@ -15,8 +15,12 @@ export const STORAGE_KEYS = {
   AUTH_TOKEN: 'halcyon_auth_token',
   REFRESH_TOKEN: 'halcyon_refresh_token',
   USER_DATA: 'halcyon_user_data',
-  ONBOARDING_COMPLETE: 'halcyon_onboarding_complete',
+  FIREBASE_UID: 'halcyon_firebase_uid',
+  WORKSPACE_ID: 'halcyon_workspace_id',
+  PREFERENCES: 'halcyon_preferences',
   THEME_MODE: 'halcyon_theme_mode',
+  LANGUAGE: 'halcyon_language',
+  ONBOARDING_COMPLETE: 'halcyon_onboarding_complete',
 } as const;
 
 export const TIMING = {

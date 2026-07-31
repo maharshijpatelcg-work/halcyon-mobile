@@ -6,25 +6,44 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-6.0-000000?style=for-the-badge&logo=typescript&logoColor=3178C6)
 ![License](https://img.shields.io/badge/License-MIT-000000?style=for-the-badge)
 
-Halcyon Mobile is an enterprise-grade AI Incident Intelligence application built with **React Native**, **Expo SDK 57**, and **TypeScript**. Designed for DevOps engineers and SREs to detect, analyze, correlate, and resolve production incidents using AI-powered memory retrieval and historical incident intelligence.
+Halcyon Mobile is an enterprise-grade AI Incident Intelligence application built with **React Native**, **Expo SDK 57**, and **TypeScript**. Designed for SREs and DevOps teams to detect, analyze, correlate, and resolve production incidents using AI-powered memory retrieval and historical incident intelligence.
+
+---
+
+## 📋 Table of Contents
+
+1. [Key Features](#-key-features)
+2. [Technology Stack](#%EF%B8%8F-technology-stack)
+3. [Installation Guide](#-installation-guide)
+4. [Firebase Setup Guide](#-firebase-setup-guide)
+5. [Google Authentication Guide](#-google-authentication-guide)
+6. [Secure Storage Specification](#-secure-storage-specification)
+7. [Build Guide (EAS Build)](#-build-guide-eas-build)
+   - [Development Build](#1-development-build)
+   - [Preview APK Generation](#2-preview-apk-generation)
+   - [Production AAB (.aab) Generation](#3-production-android-app-bundle-aab)
+   - [Production iOS Build](#4-production-ios-build)
+8. [Deployment & App Distribution](#-deployment--app-distribution)
+9. [GitHub Release Strategy](#-github-release-strategy)
+10. [Troubleshooting Guide](#-troubleshooting-guide)
 
 ---
 
 ## 🌟 Key Features
 
-- 🖤 **Liquid Obsidian Pitch Black Theme:** Premium dark UI (`#000000`) with crisp Liquid Cyan (`#34F5E6`) accents, dark crystal glass cards, and monospace technical labels.
-- 🔐 **Authentication System:**
+- 🖤 **Liquid Obsidian Dark Theme:** Dark UI (`#030614`) with crisp Liquid Cyan (`#34F5E6`) accents, dark crystal glass cards, and monospace technical labels.
+- 🔐 **Multi-Provider Authentication:**
   - Firebase Email & Password authentication.
   - Native Google Sign-In (`@react-native-google-signin/google-signin`).
-  - Graceful fallback mode when Firebase credentials are not yet initialized.
-  - Secure encrypted storage (`expo-secure-store`) for user data & tokens.
-- 📱 **5 Production-Ready Screens:**
+  - Graceful fallback mode when native binaries or credentials are operating in preview/offline mode.
+  - Secure encrypted storage (`expo-secure-store`) for tokens, user profiles, workspace IDs, preferences, theme, and language.
+- 📱 **Production-Ready Application Flow:**
   - **Animated Splash Screen:** Smooth logo reveal & state-based navigation guard.
-  - **Landing Screen:** Hero showcase ("*Incident memory, calmed.*"), feature highlight cards, and CTA buttons.
-  - **Login Screen:** Input validation, error shake animation, password toggle & Google sign-in.
-  - **Register Screen:** Create account form with real-time 4-bar password strength meter & security workspace note.
+  - **Landing Screen:** Hero showcase ("*Incident memory, calmed.*"), feature cards, and CTA buttons.
+  - **Login Screen:** Validation, error shake animation, password toggle & Google sign-in.
+  - **Register Screen:** Create account form with real-time 4-bar password strength meter.
   - **Forgot Password Screen:** Password recovery flow with animated success state.
-  - **Dashboard (Operator View):** System health status badge, metrics grid (`INCIDENTS`, `LATENCY`, `UPTIME`), and incident intelligence feed.
+  - **Dashboard (Operator View):** System status badge, metrics grid (`INCIDENTS`, `LATENCY`, `UPTIME`), incident intelligence feed, and settings drawer.
 - ⚡ **Performance & UX:**
   - 60 FPS native animations powered by **React Native Reanimated 4**.
   - Micro-haptic feedback integration (`expo-haptics`).
@@ -35,181 +54,184 @@ Halcyon Mobile is an enterprise-grade AI Incident Intelligence application built
 
 ## 🛠️ Technology Stack
 
-| Category | Technology / Library | Description |
-| :--- | :--- | :--- |
-| **Framework** | Expo SDK 57 (`57.0.8`) | React Native cross-platform app framework |
-| **Core Library** | React Native `0.86.0` / React `19.2.3` | UI component foundation |
-| **Routing** | Expo Router (`expo-router`) | File-based navigation structure |
-| **Styling** | NativeWind v4 & TailwindCSS 3 | Utility-first mobile design system |
-| **Animations** | React Native Reanimated `4.5.0` | High-performance 60 FPS gesture animations |
-| **Auth Native** | `@react-native-firebase/auth` | Enterprise auth engine |
-| **Google Auth** | `@react-native-google-signin` | Native Google Sign-In plugin |
-| **Storage** | `expo-secure-store` | Encrypted key-value storage |
-| **Tunneling** | `@expo/ngrok` | Development build tunnel mode |
+| Category | Technology / Library | Version | Description |
+| :--- | :--- | :--- | :--- |
+| **Framework** | Expo SDK 57 | `57.0.8` | Core mobile application framework |
+| **Core Engine** | React Native | `0.86.0` | Native UI components & engine |
+| **Language** | TypeScript | `~6.0.3` | Type safety & strict compiler options |
+| **Routing** | Expo Router | `~57.0.8` | File-based navigation & route guards |
+| **Styling** | NativeWind / TailwindCSS | `^4.2.6` / `^3.4.19` | Utility-first responsive design |
+| **Animations** | React Native Reanimated | `4.5.0` | 60 FPS UI animations |
+| **Auth Engine** | `@react-native-firebase/auth` | `^25.1.0` | Firebase Auth native SDK |
+| **Google Auth** | `@react-native-google-signin` | `^16.1.4` | Native Google Sign-In |
+| **Storage** | `expo-secure-store` | `~57.0.1` | Hardware-backed encrypted key-value store |
 
 ---
 
-## 📁 Directory Structure
-
-```
-halcyon-mobile/
-├── app.json                      # Expo config plugins & app manifest
-├── package.json                  # Dependencies & scripts
-├── tsconfig.json                 # Path aliases (@/* -> ./src/*)
-├── .env.example                  # Environment variable blueprint
-├── .gitignore                    # Project git ignore
-└── src/
-    ├── app/                      # Expo Router Navigation Screens
-    │   ├── _layout.tsx           # Root Layout (Fonts, Theme, Auth, Toast Providers)
-    │   ├── index.tsx             # Entry Redirect -> /splash
-    │   ├── splash.tsx            # Animated Splash Screen
-    │   ├── +not-found.tsx        # 404 Screen
-    │   ├── (auth)/               # Auth Stack Group
-    │   │   ├── _layout.tsx       # Auth Layout
-    │   │   ├── index.tsx         # Landing Screen (Home '/')
-    │   │   ├── login.tsx         # Login Screen
-    │   │   ├── register.tsx      # Register Screen
-    │   │   └── forgot-password.tsx# Forgot Password Screen
-    │   └── (app)/                # Protected App Group
-    │       ├── _layout.tsx       # Auth Guard Layout
-    │       └── index.tsx         # Dashboard Operator Screen
-    ├── components/
-    │   └── ui/                   # Reusable UI System
-    │       ├── Button.tsx        # Monospace uppercase button with scale press
-    │       ├── Input.tsx         # Embedded glass input with focus state
-    │       ├── Card.tsx          # Pitch black glass container (16-24px radius)
-    │       ├── Toast.tsx         # Slide-in toast notification system
-    │       ├── Divider.tsx       # Monospace divider
-    │       ├── SocialButton.tsx  # Native Google Sign-In button
-    │       ├── Logo.tsx          # Halcyon shield logo component
-    │       ├── LoadingSpinner.tsx# Pulsing activity loader
-    │       ├── GradientBackground.tsx# Pure pitch black backdrop (#000000)
-    │       ├── KeyboardAvoidingWrapper.tsx# Safe-area aware scroll wrapper
-    │       └── PasswordStrength.tsx# Real-time password strength meter
-    ├── constants/
-    │   ├── app.ts                # App branding & storage keys
-    │   └── strings.ts            # Centralized UI text strings
-    ├── hooks/
-    │   ├── useAnimatedEntrance.ts# Staggered fade + slide-up animation
-    │   ├── usePulseAnimation.ts  # Infinite pulse animation
-    │   ├── useShakeAnimation.ts  # Form validation error feedback
-    │   └── useScalePress.ts      # Scale press-in effect (0.97x)
-    ├── services/
-    │   ├── firebase/
-    │   │   └── config.ts         # Firebase initialization
-    │   └── auth/
-    │       ├── authService.ts    # Firebase Email/Password auth service
-    │       ├── googleAuth.ts     # Google Sign-In service
-    │       └── secureStorage.ts  # Encrypted secure store helpers
-    ├── store/
-    │   └── AuthContext.tsx       # Auth Provider Context & listener
-    ├── theme/
-    │   ├── colors.ts             # Pitch Black (#000000) & Liquid Cyan (#34F5E6) palette
-    │   ├── typography.ts         # Inter & Monospace font presets
-    │   ├── spacing.ts            # Responsive 4px grid & border radius
-    │   ├── shadows.ts            # Shadow factory
-    │   └── ThemeProvider.tsx     # Theme Provider Context
-    ├── types/
-    │   └── auth.ts               # User & Auth TypeScript interfaces
-    └── utils/
-        ├── validation.ts         # Email/password validation & error parser
-        └── haptics.ts            # Haptic feedback utility
-```
-
----
-
-## 🎨 Design System Palette
-
-| Token Name | Color Code | Purpose |
-| :--- | :--- | :--- |
-| `background.primary` | `#000000` | Pure Pitch Black Main Background |
-| `background.secondary` | `#070A0F` | Deep Obsidian Container Surface |
-| `surface.default` | `#0D111A` | Dark Glass Card Surface |
-| `primary[400]` | `#34F5E6` | Liquid Cyan Accent / Links / Active Badges |
-| `secondary[300]` | `#78D7FF` | Crystal Blue Secondary Accent |
-| `text.primary` | `#FFFFFF` | Brilliant White Primary Text |
-| `text.secondary` | `#B8C6D8` | Soft Blue-Gray Subtitles |
-| `text.tertiary` | `#8390A5` | Muted Labels & Monospace Meta |
-| `success.default` | `#22F2B4` | Emerald Status Indicator |
-| `error.default` | `#FF6478` | Coral Error Text & Borders |
-
----
-
-## 🚀 Quick Start Guide
+## 📦 Installation Guide
 
 ### Prerequisites
-- Node.js `18.x` or later
-- npm or yarn
-- Expo Go App on mobile device, Android Studio Emulator, or iOS Simulator
 
-### 1. Installation
-Clone the repository and install dependencies:
-```bash
-cd halcyon-mobile
-npm install
-```
+- **Node.js**: `v20.x` or higher
+- **npm**: `v10.x` or higher
+- **Expo CLI**: `npx expo`
+- **EAS CLI**: `npm install -g eas-cli` (for builds)
+- **Android Studio & SDK**: (For local Android emulation / development build)
+- **Xcode**: (For local iOS development on macOS)
 
-### 2. Run Locally
-Start the Expo Metro Bundler:
-```bash
-# Start default Expo server
-npm start
+### Steps
 
-# Start with Web preview
-npm run web
-
-# Start with Tunnel mode for external mobile devices
-npx expo start --tunnel
-```
-
----
-
-## 🔐 Firebase & Google Sign-In Setup
-
-To enable full native Firebase Authentication & Google Sign-In:
-
-1. **Firebase Project Setup:**
-   - Create a project in the [Firebase Console](https://console.firebase.google.com/).
-   - Add an **Android App** with package name `com.halcyon.mobile`.
-   - Add an **iOS App** with bundle identifier `com.halcyon.mobile`.
-
-2. **Download Config Files:**
-   - Place `google-services.json` inside the `halcyon-mobile/` root directory for Android.
-   - Place `GoogleService-Info.plist` inside the `halcyon-mobile/` root directory for iOS.
-
-3. **Configure Environment:**
-   - Copy `.env.example` to `.env`:
-     ```bash
-     cp .env.example .env
-     ```
-   - Set `EXPO_PUBLIC_FIREBASE_WEB_CLIENT_ID` with your Web Client ID from Firebase Authentication settings.
-
-4. **Build Development Binary:**
+1. **Clone the Repository:**
    ```bash
-   # Run on Android
-   npx expo run:android
+   git clone https://github.com/halcyon/halcyon-mobile.git
+   cd halcyon-mobile
+   ```
 
-   # Run on iOS
-   npx expo run:ios
+2. **Install Dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Configure Environment Variables:**
+   Copy `.env.example` to `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+   Set your Firebase Web Client ID:
+   ```env
+   EXPO_PUBLIC_FIREBASE_WEB_CLIENT_ID=your-firebase-web-client-id-here.apps.googleusercontent.com
+   ```
+
+4. **Start Development Server:**
+   ```bash
+   npm start
    ```
 
 ---
 
-## 📜 Commands Reference
+## 🔥 Firebase Setup Guide
 
+1. **Create Firebase Project:**
+   - Go to [Firebase Console](https://console.firebase.google.com/).
+   - Click **Add Project** and name it `halcyon-mobile`.
+
+2. **Register Android App:**
+   - Package Name: `com.halcyon.mobile`
+   - Download `google-services.json` and place it in the root folder `./google-services.json`.
+
+3. **Register iOS App:**
+   - Bundle ID: `com.halcyon.mobile`
+   - Download `GoogleService-Info.plist` and place it in the root folder `./GoogleService-Info.plist`.
+
+4. **Enable Auth Providers:**
+   - Navigate to **Authentication > Sign-in method**.
+   - Enable **Email/Password**.
+   - Enable **Google**.
+
+---
+
+## 🔑 Google Authentication Guide
+
+1. **Obtain Web Client ID:**
+   - In Firebase Console under **Authentication > Sign-in method > Google**, copy the **Web Client ID**.
+   - Paste it into your `.env` file under `EXPO_PUBLIC_FIREBASE_WEB_CLIENT_ID`.
+
+2. **Generate Android Key SHA-1 & SHA-256:**
+   - Run in the `./android` folder:
+     ```bash
+     ./gradlew signingReport
+     ```
+   - Copy the `SHA1` and `SHA256` fingerprints for debug and release variants.
+   - Paste them into Firebase Console under **Project Settings > Android Apps > Add fingerprint**.
+
+---
+
+## 🔐 Secure Storage Specification
+
+Sensitive operational data is encrypted using `expo-secure-store` (Keychain on iOS, Keystore on Android):
+
+| Key | Description | Storage Helper |
+| :--- | :--- | :--- |
+| `halcyon_auth_token` | JWT Access Token | `getAccessToken()` / `saveAuthTokens()` |
+| `halcyon_refresh_token` | Refresh Token | `getRefreshToken()` / `saveAuthTokens()` |
+| `halcyon_user_data` | User Profile Object | `getUserData()` / `saveUserData()` |
+| `halcyon_firebase_uid` | Firebase UID | `getFirebaseUid()` / `saveFirebaseUid()` |
+| `halcyon_workspace_id` | Workspace Identifier | `getWorkspaceId()` / `saveWorkspaceId()` |
+| `halcyon_preferences` | Operational Preferences | `getUserPreferences()` / `saveUserPreferences()` |
+| `halcyon_theme_mode` | Dark/Light/System Theme | `getThemeMode()` / `saveThemeMode()` |
+| `halcyon_language` | Preferred i18n Locale | `getLanguage()` / `saveLanguage()` |
+
+---
+
+## 🏗️ Build Guide (EAS Build)
+
+### 1. Development Build
+Used for debugging on physical devices with native code support:
 ```bash
-# Run TypeScript compilation check
-npx tsc --noEmit
-
-# Clear Metro bundler cache and start
-npx expo start --clear
-
-# Lint codebase
-npx expo lint
+eas build --profile development --platform android
 ```
+
+### 2. Preview APK Generation
+Generates a standalone, shareable `.apk` file for testing:
+```bash
+eas build --profile preview --platform android
+```
+
+### 3. Production Android App Bundle (.aab)
+Generates an optimized, signed `.aab` file ready for Google Play Store upload:
+```bash
+eas build --profile production --platform android
+```
+
+### 4. Production iOS Build
+Generates signed iOS build for Apple TestFlight / App Store:
+```bash
+eas build --profile production --platform ios
+```
+
+---
+
+## 🚀 Deployment & App Distribution
+
+### Google Play Store (.aab)
+1. Generate release bundle using `eas build --profile production --platform android`.
+2. Login to [Google Play Console](https://play.google.com/console).
+3. Create a new Release in **Production** or **Internal Testing**.
+4. Upload the generated `.aab` file and complete store listing.
+
+### Apple App Store
+1. Generate iOS release build using `eas build --profile production --platform ios`.
+2. Submit automatically using `eas submit --platform ios` or upload via Transporter to App Store Connect.
+
+---
+
+## 🏷️ GitHub Release Strategy
+
+Follow semantic versioning (`v1.0.0`, `v1.1.0`):
+
+1. **Tag Version:**
+   ```bash
+   git tag -a v1.0.0 -m "Release v1.0.0: Initial Production Build"
+   git push origin v1.0.0
+   ```
+
+2. **Attach Assets:**
+   - Build preview APK: `eas build --profile preview --platform android`
+   - Attach the generated APK to the GitHub Release notes.
+
+---
+
+## ❓ Troubleshooting Guide
+
+| Issue | Root Cause | Solution |
+| :--- | :--- | :--- |
+| `GoogleSignin.signIn() error` | Missing SHA-1 / Incorrect Web Client ID | Verify SHA-1 fingerprint in Firebase console & check `.env` client ID. |
+| `getValueWithKeyAsync error` | Calling SecureStore on Web preview | Handled automatically by `secureStorage.ts` web fallback. |
+| `Font loading delay` | Async font fetch | Handled in `_layout.tsx` with `SplashScreen.preventAutoHideAsync()`. |
+| `NativeWind styling missing` | Missing Metro plugin | Ensure `metro.config.js` uses `withNativeWind`. |
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](file:///c:/Users/maharshi%20patel/Desktop/Halcyon-MOBILE/halcyon-mobile/LICENSE) file for details.

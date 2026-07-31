@@ -8,9 +8,15 @@
     "scheme": "halcyonmobile",
     "userInterfaceStyle": "dark",
     "backgroundColor": "#030614",
+    "splash": {
+      "image": "./assets/images/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#030614"
+    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.halcyon.mobile",
+      "buildNumber": "1",
       "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
@@ -21,8 +27,13 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "package": "com.halcyon.mobile",
+      "versionCode": 1,
       "googleServicesFile": "./google-services.json",
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "android.permission.INTERNET",
+        "android.permission.ACCESS_NETWORK_STATE"
+      ]
     },
     "web": {
       "output": "static",
@@ -40,6 +51,10 @@
         {
           "ios": {
             "useFrameworks": "static"
+          },
+          "android": {
+            "enableMinifyInReleaseBuilds": true,
+            "enableShrinkResourcesInReleaseBuilds": true
           }
         }
       ]
