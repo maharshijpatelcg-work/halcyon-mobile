@@ -1,5 +1,5 @@
 /**
- * Halcyon — Full Web-Identical Enterprise Telemetry Dashboard
+ * Halcyon — Full Web-Identical Enterprise Telemetry Dashboard (Route: '/dashboard')
  * 
  * Pixel-perfect mobile & desktop implementation matching the official web dashboard:
  *  - Top status bar: INCIDENT FEED - TELEMETRY LOGS | SYSTEM: STABLE
@@ -44,7 +44,6 @@ export default function DashboardScreen() {
   const { showToast } = useToast();
 
   const [incidents, setIncidents] = useState<IncidentItem[]>([]);
-  const [activeTab, setActiveTab] = useState<'feed' | 'knowledge' | 'audit' | 'settings'>('feed');
 
   const topBarAnim = useAnimatedEntrance({ delay: 100, slideDistance: 12 });
   const titleAnim = useAnimatedEntrance({ delay: 250, slideDistance: 16 });
@@ -73,7 +72,7 @@ export default function DashboardScreen() {
   const handleSignOut = async () => {
     try {
       await signOut();
-      router.replace('/(auth)/landing');
+      router.replace('/');
     } catch (error: any) {
       showToast(error.message ?? 'Sign out failed', 'error');
     }
@@ -250,7 +249,7 @@ const styles = StyleSheet.create({
   },
   maxContainer: {
     width: '100%',
-    maxWidth: 1100, // Balanced desktop max-width matching web
+    maxWidth: 1100,
   },
   topBar: {
     flexDirection: 'row',

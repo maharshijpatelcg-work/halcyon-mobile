@@ -66,7 +66,7 @@ export default function RegisterScreen() {
     try {
       await signUp(email.trim(), password, name.trim());
       await successHaptic();
-      router.replace('/(app)');
+      router.replace('/dashboard');
     } catch (error: any) {
       showToast(error.message ?? 'Registration failed', 'error');
       shake(); await errorHaptic();
@@ -77,7 +77,7 @@ export default function RegisterScreen() {
     setGoogleLoading(true);
     try {
       await signInWithGoogle();
-      router.replace('/(app)');
+      router.replace('/dashboard');
     } catch (error: any) {
       showToast(error.message ?? 'Google sign-in failed', 'error');
     } finally { setGoogleLoading(false); }

@@ -66,7 +66,7 @@ halcyon-mobile/
     │   ├── +not-found.tsx        # 404 Screen
     │   ├── (auth)/               # Auth Stack Group
     │   │   ├── _layout.tsx       # Auth Layout
-    │   │   ├── landing.tsx       # Landing Screen
+    │   │   ├── index.tsx         # Landing Screen (Home '/')
     │   │   ├── login.tsx         # Login Screen
     │   │   ├── register.tsx      # Register Screen
     │   │   └── forgot-password.tsx# Forgot Password Screen

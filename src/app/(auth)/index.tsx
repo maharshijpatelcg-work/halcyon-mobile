@@ -1,5 +1,5 @@
 /**
- * Halcyon — Full Web-Identical Landing Page (100% Responsive)
+ * Halcyon — Full Web-Identical Landing Page (Default '/' Home Route)
  * 
  * Pixel-perfect implementation matching https://ai-halcyon.vercel.app/
  * Fully responsive on Mobile, Tablet, Foldables, and 4K Desktop Screens.
@@ -7,8 +7,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Animated from 'react-native-reanimated';
-import { useRouter } from 'expo-router';
+import { useRouter, Redirect } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useAuth } from '@/store/AuthContext';
 import { useAnimatedEntrance } from '@/hooks/useAnimatedEntrance';
 import { GradientBackground } from '@/components/ui/GradientBackground';
 import { Button } from '@/components/ui/Button';
@@ -24,6 +25,12 @@ const hPad = getHorizontalPadding();
 export default function LandingScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const { isAuthenticated } = useAuth();
+
+  // If already logged in, redirect to default /dashboard route
+  if (isAuthenticated) {
+    return <Redirect href="/dashboard" />;
+  }
 
   const logoAnim = useAnimatedEntrance({ delay: 100, slideDistance: 12 });
   const heroAnim = useAnimatedEntrance({ delay: 250, slideDistance: 20 });
@@ -62,7 +69,7 @@ export default function LandingScreen() {
             </Text>
           </Animated.View>
 
-          {/* 1. Halcyon Core Oscilloscope Terminal Card (100% Dynamic Width) */}
+          {/* 1. Halcyon Core Oscilloscope Terminal Card */}
           <Animated.View style={[styles.sectionGap, oscilloscopeAnim.animatedStyle]}>
             <Oscilloscope />
           </Animated.View>
@@ -209,7 +216,7 @@ const styles = StyleSheet.create({
   },
   maxContainer: {
     width: '100%',
-    maxWidth: 960, // Desktop max-width container for ultra-wide monitors
+    maxWidth: 960,
   },
   topLogoWrap: {
     alignItems: 'center',
@@ -266,8 +273,6 @@ const styles = StyleSheet.create({
     marginBottom: spacing.lg,
     paddingHorizontal: spacing.md,
   },
-
-  // CLI Comparison Cards
   cliCard: {
     backgroundColor: '#0A0D15',
     borderRadius: borderRadius.md,
@@ -366,8 +371,6 @@ const styles = StyleSheet.create({
     color: colors.primary[400],
     letterSpacing: letterSpacings.wider,
   },
-
-  // Architecture Cards
   archCard: {
     marginBottom: spacing.md,
     backgroundColor: colors.surface.default,
@@ -401,8 +404,6 @@ const styles = StyleSheet.create({
     color: colors.text.secondary,
     lineHeight: fontSizes.xs * 1.6,
   },
-
-  // Metrics Grid
   metricsGrid: {
     flexDirection: 'row',
     gap: spacing.md,
@@ -432,8 +433,6 @@ const styles = StyleSheet.create({
     letterSpacing: letterSpacings.wider,
     textAlign: 'center',
   },
-
-  // CTA Section
   ctaSection: {
     marginTop: spacing.md,
     width: '100%',

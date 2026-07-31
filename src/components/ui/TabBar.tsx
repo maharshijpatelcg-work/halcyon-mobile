@@ -18,7 +18,7 @@ export interface TabItem {
 }
 
 export const TABS: TabItem[] = [
-  { id: 'dashboard', label: 'DASHBOARD', icon: '⚡', route: '/(app)' },
+  { id: 'dashboard', label: 'DASHBOARD', icon: '⚡', route: '/(app)/dashboard' },
   { id: 'incidents', label: 'INCIDENTS', icon: '🚨', route: '/(app)/incidents' },
   { id: 'knowledge', label: 'MEMORY', icon: '🧠', route: '/(app)/knowledge' },
   { id: 'audit', label: 'AUDIT', icon: '📈', route: '/(app)/audit' },

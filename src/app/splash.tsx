@@ -55,9 +55,9 @@ export default function SplashScreen() {
 
   const navigate = () => {
     if (isAuthenticated) {
-      router.replace('/(app)');
+      router.replace('/dashboard');
     } else {
-      router.replace('/(auth)/landing');
+      router.replace('/');
     }
   };
 

@@ -63,7 +63,7 @@ export default function LoginScreen() {
     if (!validate()) { shake(); await errorHaptic(); return; }
     try {
       await signIn(email.trim(), password);
-      router.replace('/(app)');
+      router.replace('/dashboard');
     } catch (error: any) {
       showToast(error.message ?? 'Login failed', 'error');
       shake();
@@ -75,7 +75,7 @@ export default function LoginScreen() {
     setGoogleLoading(true);
     try {
       await signInWithGoogle();
-      router.replace('/(app)');
+      router.replace('/dashboard');
     } catch (error: any) {
       showToast(error.message ?? 'Google sign-in failed', 'error');
     } finally { setGoogleLoading(false); }

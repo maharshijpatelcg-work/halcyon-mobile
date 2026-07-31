@@ -58,7 +58,7 @@ export default function SettingsScreen() {
   const handleSignOut = async () => {
     try {
       await signOut();
-      router.replace('/(auth)/landing');
+      router.replace('/');
     } catch (e: any) {
       showToast(e.message || 'Sign out failed', 'error');
     }

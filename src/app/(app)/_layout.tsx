@@ -27,7 +27,7 @@ export default function AppLayout() {
   }
 
   if (!isAuthenticated) {
-    return <Redirect href="/(auth)/landing" />;
+    return <Redirect href="/" />;
   }
 
   // Derive active tab from current route pathname
